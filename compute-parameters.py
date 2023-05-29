@@ -32,6 +32,6 @@ def get_latex_table_row(delta):
     line +=" \\\\"
     return line
 
-for a in list(range(11, 24, 1)) + list(range(24,31,2)):
+for a in list(range(11, 31, 1)) + [35, 40, 45, 50]:
     delta = Fraction(a, 10)
     print(get_latex_table_row(delta))

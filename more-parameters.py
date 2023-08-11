@@ -13,12 +13,21 @@ def get_min_seed_size(degree, sec_bits, e):
     """
     return math.ceil(sec_bits**((degree - 1) / (degree - 1 - e)))
 
-def get_table_row(degree, sec_bits, e):
+def get_table_row_latex(degree, sec_bits, e):
     min_seed_size = get_min_seed_size(degree, sec_bits, e)
     line = f"${float(e)}$"
     line += " & "
-    line += "$ " + from_bits_to_bytes(min_seed_size) + " $"
+    line += from_bits_to_bytes(min_seed_size)
     line +=" \\\\"
+    return line
+
+def get_table_row_markdown(degree, sec_bits, e):
+    min_seed_size = get_min_seed_size(degree, sec_bits, e)
+    line = "| "
+    line += f"${float(e)}$"
+    line += " | "
+    line += from_bits_to_bytes(min_seed_size)
+    line +=" |"
     return line
 
 def from_bits_to_bytes(number_bits):
@@ -27,15 +36,21 @@ def from_bits_to_bytes(number_bits):
     else:
         n = math.ceil(number_bits / 8)
     
-    magnitudes = {'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB'}
+    magnitudes =['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB']
     for m in magnitudes:
         if n < 1024:
-            return f"{n:.3f}" + m
+            return f"{n:g} " + m
         n /= 1024.0
+    n *= 1024.0
+    return f"{n:g} EB"
 
+# n = 1
+# for i in range(80):
+#     print(from_bits_to_bytes(n))
+#     n*=2
 
 sec_bits = 128
 degree = 2
 
 for e in list(range(1, 100)):
-    print(get_table_row(degree, sec_bits, e/100.0))
+    print(get_table_row_markdown(degree, sec_bits, e/100.0))

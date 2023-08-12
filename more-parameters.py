@@ -23,11 +23,14 @@ def get_table_row_latex(degree, sec_bits, e):
 
 def get_table_row_markdown(degree, sec_bits, e):
     min_seed_size = get_min_seed_size(degree, sec_bits, e)
+    m = math.floor(pow(min_seed_size, 1 + e))
     line = "| "
     line += f"${float(e)}$"
     line += " | "
     line += from_bits_to_bytes(min_seed_size)
-    line +=" |"
+    line +=" | "
+    line += from_bits_to_bytes(m)
+    line +=" | "
     return line
 
 def from_bits_to_bytes(number_bits):
@@ -50,7 +53,7 @@ def from_bits_to_bytes(number_bits):
 #     n*=2
 
 sec_bits = 128
-degree = 2
+degree = 3
 
-for e in list(range(1, 100)):
+for e in list(range(1, 90)):
     print(get_table_row_markdown(degree, sec_bits, e/100.0))
